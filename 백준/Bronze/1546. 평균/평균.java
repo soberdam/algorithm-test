@@ -11,8 +11,9 @@ public class Main{
             scoreArr[i] = scanner.nextInt();
         }
     
+        maxScore = scoreArr[0];
         
-        for(int i=0; i<subjectCount; i++){
+        for(int i=1; i<subjectCount; i++){
             if(scoreArr[i]>maxScore) {
                 maxScore = scoreArr[i];
             }
