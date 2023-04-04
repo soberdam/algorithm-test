@@ -10,11 +10,9 @@ class Solution {
                 i++;
                 continue;
             }
-            if(index%2 == 0) {
-                answer+=Character.toUpperCase(s.charAt(i));
-            } else {
-                answer+=Character.toLowerCase(s.charAt(i));
-            }
+            answer += index%2 == 0 ? 
+                Character.toUpperCase(s.charAt(i)) :
+                Character.toLowerCase(s.charAt(i));
             index++;
             i++;
 
