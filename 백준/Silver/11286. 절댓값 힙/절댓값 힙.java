@@ -1,7 +1,9 @@
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.PriorityQueue;
 
 
@@ -9,6 +11,9 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringBuilder sb = new StringBuilder();
+		
 		// 우선순위 큐에 비교조건을 람다식으로 삽입
 		PriorityQueue<Integer> pQueue = new PriorityQueue<>((a,b)-> {
 			if(Math.abs(a)==Math.abs(b)) {
@@ -32,14 +37,15 @@ public class Main {
 			else {
 				// 배열이 비어있는 경우 0 출력
 				if(pQueue.isEmpty()) {
-					System.out.println(0);
+					sb.append(0+"\n");
 				} else {
-					System.out.println(pQueue.poll());
+					sb.append(pQueue.poll()+"\n");
 				}
 			}
 		}
 
-			
+		bw.write(sb.toString());
+		bw.close();
 			
 		
 
