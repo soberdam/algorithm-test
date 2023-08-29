@@ -1,3 +1,11 @@
+/*
+2805. 나무 자르기
+1. 떡의 개수 N개 중 절단기의 길이 H를 0부터 10억까지 이분탐색하며, 
+2-1. 중간값일 때 M미터의 나무를 가져갈 수 있는지 확인
+2-2. M미터와 일치한다면 max를 업데이트 후 return ( 높이의 최댓값)
+2-3. 필요한 M보다 가져갈 수 있는 나무가 적다면 왼쪽에서 탐색
+2-4. 필요한 M보다 가져갈 수 있는 나무가 많다면 max를 업데이트 후 오른쪽에서 탐색
+*/
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
