@@ -11,83 +11,76 @@ import java.util.StringTokenizer;
  *  이 이동한 최단거리를 새 배열(escape)에 저장
  */
 public class Main {
-	static int[] dr = {-1, 1, 0, 0};
-	static int[] dc = {0, 0, -1, 1};
+	static int[] dr = { -1, 1, 0, 0 };
+	static int[] dc = { 0, 0, -1, 1 };
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int R = Integer.parseInt(st.nextToken());
 		int C = Integer.parseInt(st.nextToken());
-		char[][] maze = new char[R][C]; 
-		boolean[][] visitedF = new boolean[R][C];
-		int[] jStart = {};
-		int[][] fire = new int[R][C];
-		int[][] escape = new int[R][C];
-		Queue<int[]> queue = new LinkedList<>();
+		char[][] maze = new char[R][C];
+		int[][] fire = new int[R][C]; // 불의 전파 시간
+		int[][] escape = new int[R][C]; // 지훈이의 이동 시간
+		Queue<int[]> queue1 = new LinkedList<>(); // 불 BFS 할 큐
+		Queue<int[]> queue2 = new LinkedList<>(); // 지훈이 BFS 할 큐
 		// 미로 입력 받기
-		for(int i=0; i<R; i++) {
+		for (int i = 0; i < R; i++) {
 			String s = br.readLine();
-			for(int j=0; j<C; j++) {
+			for (int j = 0; j < C; j++) {
+				fire[i][j] = -1;
+				escape[i][j] = -1;
 				maze[i][j] = s.charAt(j);
-				if(s.charAt(j)=='F') {
-					queue.offer(new int[] {i, j});
-					visitedF[i][j] = true;
+				if (s.charAt(j) == 'F') {
+					queue1.offer(new int[] { i, j });
+					fire[i][j] = 0;
 				}
-				if(s.charAt(j)=='J') jStart = new int[] {i,j}; 
+				if (s.charAt(j) == 'J') {
+					queue2.offer(new int[] { i, j });
+					escape[i][j] = 0;
+				}
 			}
 		}
 		// 불이 붙은 위치에서 BFS를 하여 불이 도착하는 분(최단거리)을 새 배열(fire)에 저장
-		while(!queue.isEmpty()) {
-			int[] cur = queue.poll();
+		while (!queue1.isEmpty()) {
+			int[] cur = queue1.poll();
 			int curR = cur[0];
 			int curC = cur[1];
-			for(int d=0; d<4; d++) {
+			for (int d = 0; d < 4; d++) {
 				int nr = curR + dr[d];
 				int nc = curC + dc[d];
-				if(nr>=0 && nr<R && nc>=0 && nc<C && !visitedF[nr][nc] && maze[nr][nc]!='#') {
-					visitedF[nr][nc] = true;
+				if (nr >= 0 && nr < R && nc >= 0 && nc < C && fire[nr][nc] == -1 && maze[nr][nc] != '#') {
 					fire[nr][nc] = fire[curR][curC] + 1;
-					queue.offer(new int[] {nr,nc});
+					queue1.offer(new int[] { nr, nc });
 				}
 			}
 		}
-		
-		boolean[][] visitedJ = new boolean[R][C]; // 방문 초기화
+
 		// 지훈이의 위치에서 BFS를 하며, 지훈이가 도착하는 시간(최단거리)에 불이 없다면(fire의 값보다 작다면) 이동
 		// 이 이동한 최단거리를 새 배열(escape)에 저장
-		queue.offer(jStart);
-		visitedJ[jStart[0]][jStart[1]] = true;
-		boolean escapable = false;
-		int minute = 0;
-		Loop1:while(!queue.isEmpty()) {
-			int[] cur = queue.poll();
-			// 만약 탈출구(모서리의 끝)라면 break; {
+		Loop1: while (!queue2.isEmpty()) {
+			int[] cur = queue2.poll();
+			// 만약 탈출구(모서리의 끝)라면 break; 
 			int curR = cur[0];
 			int curC = cur[1];
-			if(curR==0||curC==0||curR==R-1||curC==C-1) {
-				escapable = true;
-				minute = escape[curR][curC];
-				break Loop1;
+			if (curR == 0 || curC == 0 || curR == R - 1 || curC == C - 1) {
+				System.out.println(escape[curR][curC]+1);
+				return;
 			}
-			for(int d=0; d<4; d++) {
+			for (int d = 0; d < 4; d++) {
 				int nr = curR + dr[d];
 				int nc = curC + dc[d];
-				if(nr>=0 && nr<R && nc>=0 && nc<C && !visitedJ[nr][nc] && maze[nr][nc]!='#') {
-					if((escape[curR][curC]+1<fire[nr][nc])||!visitedF[nr][nc]) {
-						visitedJ[nr][nc] = true;
+				if (nr >= 0 && nr < R && nc >= 0 && nc < C && escape[nr][nc]==-1 && maze[nr][nc] != '#') {
+					if ((escape[curR][curC] + 1 < fire[nr][nc]) || fire[nr][nc]==-1) {
 						escape[nr][nc] = escape[curR][curC] + 1;
-						
-						queue.offer(new int[] {nr,nc});
+						queue2.offer(new int[] { nr, nc });
 					}
 				}
 			}
 		}
-		
-		if(escapable) {
-			System.out.println(minute+1);
-		} else {
-			System.out.println("IMPOSSIBLE");
-		}
+
+		System.out.println("IMPOSSIBLE");
+
 	}
 
 }
