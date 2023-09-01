@@ -42,10 +42,11 @@ class Solution {
 	}
 
 	public static void findShortDist(int count, int dist, Point last) {
+		if(dist>min) return; // 백트래킹, N개를 선택하지 않아도 최소 거리를 초고하면 더이상 탐색하지 않는다.
 		if (count == N) {
 			int toHome = dist(last, home);
 			dist += toHome;
-			min = Math.min(min, dist);
+			min = Math.min(min,dist);
 			return;
 		}
 
