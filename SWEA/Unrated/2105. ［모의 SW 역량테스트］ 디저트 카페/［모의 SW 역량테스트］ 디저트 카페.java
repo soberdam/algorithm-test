@@ -49,7 +49,7 @@ public class Solution {
 	}
 
 	public static void DFS(int row, int col, int eat, int dir) {
-		if (dir == 3 && eat>=3) {
+		if (dir == 3 && eat>=4) {
 			if (row == startR && col == startC) {
 				max = Math.max(max, eat);
 			}
