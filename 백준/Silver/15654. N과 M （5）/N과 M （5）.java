@@ -14,6 +14,7 @@ public class Main {
 	static int M;
 	static int[] arr;
 	static boolean[] visited;
+	static int[] printArr;
 	static StringBuilder sb = new StringBuilder();
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -23,27 +24,28 @@ public class Main {
 		st = new StringTokenizer(br.readLine());
 		arr = new int[N];
 		visited = new boolean[N];
+		printArr = new int[M];
 		for(int i=0; i<N; i++) {
 				arr[i] = Integer.parseInt(st.nextToken());
 		}
 		Arrays.sort(arr);
-		backTracking(0, new StringBuilder());
+		backTracking(0);
 		System.out.println(sb.toString());
 	}
-	public static void backTracking(int count, StringBuilder temp) {
+	public static void backTracking(int count) {
 		if(count==M) {
-			System.out.println(temp.toString());
+			for(int i=0; i<M; i++) {
+				sb.append(String.valueOf(printArr[i])).append(' ');
+			}
+			sb.append('\n');
 			return;
 		}
 		
 		for(int i=0; i<N; i++) {
 			if(!visited[i]) {
 				visited[i] = true;
-				String s = temp.toString();
-				temp.append(String.valueOf(arr[i])).append(' ');
-				backTracking(count+1, new StringBuilder(temp.toString()));
-				temp.setLength(0);
-				temp.append(s);
+				printArr[count] = arr[i];
+				backTracking(count+1);
 				visited[i] = false;
 			}
 		}
