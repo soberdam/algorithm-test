@@ -14,7 +14,6 @@ public class Solution {
 	static int count;
 	static int N;
 	static int M;
-	static boolean[] from;
 	static ArrayList<ArrayList<Integer>> graph;
 
 	public static void main(String[] args) throws Exception {
@@ -26,7 +25,6 @@ public class Solution {
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			N = Integer.parseInt(st.nextToken());
 			M = Integer.parseInt(st.nextToken());
-			from = new boolean[N + 1];
 			graph = new ArrayList<ArrayList<Integer>>();
 			for (int i = 0; i < N + 1; i++) {
 				graph.add(new ArrayList<Integer>());
@@ -57,9 +55,10 @@ public class Solution {
 			}
 			return;
 		}
-
+		
 		for(int i=0; i<graph.get(last).size(); i++) {
 			int arrival = graph.get(last).get(i);
+            // 노드를 선택하는 순서가 순열이 아닌 조합이므로 오름차순으로 선택한다.
 			if(arrival>last) {
 				backTracking(depth+1, start, arrival);
 			}
