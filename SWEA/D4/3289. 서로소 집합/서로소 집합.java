@@ -53,7 +53,7 @@ public class Solution {
 	public static int Find(int x) {
 		if(x==parent[x]) return x;
 		
-		return Find(parent[x]);
+		return parent[x] = Find(parent[x]);
 	}
 	
 	public static void Union(int x, int y) {
