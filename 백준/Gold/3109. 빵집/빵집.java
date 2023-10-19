@@ -19,7 +19,7 @@ public class Main {
 	static int[] dr = {-1, 0, 1};
 	static int R, C;
 	static char[][] map;
-	static int[][] visited;
+	static boolean[][] visited;
 	static int answer = 0;
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -27,7 +27,7 @@ public class Main {
 		R = Integer.parseInt(st.nextToken());
 		C = Integer.parseInt(st.nextToken());
 		map = new char[R][C];
-		visited = new int[R][C];
+		visited = new boolean[R][C];
 		for (int i = 0; i < R; i++) {
 			String str = br.readLine();
 			for (int j = 0; j < C; j++) {
@@ -38,15 +38,7 @@ public class Main {
 		for(int i=0; i<R; i++) {
 			dfsUp(i,0);
 		}
-//		int temp = answer;
-//		
-//		visited = new boolean[R][C];
-//		answer = 0;
-//		for(int i=R-1; i>=0; i--) {
-//			visited[i][0] = true;
-//			dfsDown(i,0);
-//		}
-//		answer = Math.max(temp,  answer);
+
 		System.out.println(answer);
 
 	}
@@ -54,6 +46,7 @@ public class Main {
 	public static boolean dfsUp(int row, int col) {
 		if(col==C-1) {
 			answer++;
+			// 연결되었음을 return
 			return true;
 		}
 		
@@ -61,40 +54,22 @@ public class Main {
 			int nr = row+dr[d];
 			int nc = col+1;
 			if(nr<0||nc<0||nr>=R||nc>=C) continue;
-			if(visited[nr][nc]==0&&map[nr][nc]!='x') {
-				visited[nr][nc]=1;
+			if(!visited[nr][nc]&&map[nr][nc]!='x') {
+				visited[nr][nc]=true;
 				boolean isConnected = dfsUp(nr, nc);
 				if(!isConnected) {
+					// 연결되지 않았다면 다른 방향 탐색
 					continue;
 				}
+				// 연결 했다면 해당 시작점에서의 경로는 더 확인 할 필요 없으므로 그대로 return
 				return isConnected;
 			}
 		}
-		visited[row][col] = -1;
+		// 3방향 모두 탐색했다면 
+		visited[row][col] = true;
 		return false;
 	}
 	
-//	public static boolean dfsDown(int row, int col) {
-//		if(col==C-1) {
-//			answer++;
-//			return true;
-//		}
-//		
-//		for(int d=2; d>=0; d--) {
-//			int nr = row+dr[d];
-//			int nc = col+1;
-//			if(nr<0||nc<0||nr>=R||nc>=C) continue;
-//			if(!visited[nr][nc]&&map[nr][nc]!='x') {
-//				visited[nr][nc] = true;
-//				boolean isConnected = dfsDown(nr, nc);
-//				if(!isConnected) {
-//					visited[nr][nc] = false;
-//					continue;
-//				}
-//				return isConnected;
-//			}
-//		}
-//		return false;
-//	}
+
 
 }
