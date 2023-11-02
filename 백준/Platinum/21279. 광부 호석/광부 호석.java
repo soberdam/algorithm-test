@@ -27,8 +27,8 @@ class Mineral implements Comparable {
 
 public class Main {
 	static int N, C;
-	static int maxSum = 0;
-	static int tempSum = 0;
+	static long maxSum = 0;
+	static long tempSum = 0;
 	static int tempCount = 0;
 	static List<List<Mineral>> mine = new ArrayList<>();
 	static List<List<Mineral>> mineY = new ArrayList<>();
@@ -67,7 +67,7 @@ public class Main {
 					break;
 				}
 			}
-			while (tempCount > C) {
+			while (tempCount >+ C) {
 				for (int i = 0; i <mineY.get(end).size(); i++) {
 					if (mineY.get(end).get(i).x <= start) {
 						tempSum -= mineY.get(end).get(i).v;
