@@ -77,7 +77,7 @@ public class Main {
                 }
             }
             // y축에 해당하는 start보다 같거나 작은 x좌표에 있는 가치들을 빼준다.
-            while (end>0&&tempCount > C) {
+            while (tempCount > C) {
                 for (int i = 0; i <mineY.get(end).size(); i++) {
                     if (mineY.get(end).get(i).x <= start) {
                         tempSum -= mineY.get(end).get(i).v;
@@ -91,6 +91,7 @@ public class Main {
             }
             // C개를 초과하지 않으면 X*Y가 무조건 더 많으므로 가중치를 모두 더해보고 최댓값이라면 업데이트. 이후 X를 ++
             maxSum = Math.max(maxSum, tempSum);
+            if(end==0) break;
         }
         
         System.out.println(maxSum);
